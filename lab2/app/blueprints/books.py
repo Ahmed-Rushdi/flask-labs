@@ -1,4 +1,4 @@
-from flask import Blueprint, session, redirect, url_for, render_template, request, flash
+from flask import Blueprint, session, redirect, url_for, render_template, request
 from app.models import User, Book
 from app import db
 
@@ -31,7 +31,7 @@ def delete(book_id):
     book = Book.query.filter_by(id=book_id).first()
     if user.role != "admin" and book.user_id != user.id:
         return redirect(url_for("books.list"))
-    else 
+    else:
         if book:
             db.session.delete(book)
             db.session.commit()
