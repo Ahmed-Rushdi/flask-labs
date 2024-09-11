@@ -21,6 +21,15 @@
              width="100"
              height="200">
         <h3>{{ book.title }}</h3>
+        <button onclick="deleteBook({{ book.id }})" class="btn btn-danger">Delete</button>
         <br>
     {% endfor %}
+    <script>
+        function deleteBook(id) {
+            console.log(id)
+            fetch(`/books/${id}`, {
+                method: "DELETE"
+            }).then(() => window.location.reload())
+        }
+    </script>
 {% endblock content %}

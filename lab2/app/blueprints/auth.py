@@ -58,6 +58,8 @@ def profile():
     if not username:
         return redirect(url_for("auth.login"))
     user = User.query.filter_by(username=username).first()
+    if not user:
+        return redirect(url_for("auth.login"))
     if request.method == "GET":
         return render_template(
             "users/profile.html",
