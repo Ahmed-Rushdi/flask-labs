@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}
+    Books
+{% endblock title %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="cover">Cover</label>
+            <input type="file" id="cover" name="cover" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+    <hr>
+    {% for book in user.books %}
+        <img src="data:;base64,{{ book.cover | bytes_to_base64 }}"
+             alt="{{ book }} Cover"
+             width="100"
+             height="200">
+        <h3>{{ book.title }}</h3>
+        <br>
+    {% endfor %}
+{% endblock content %}

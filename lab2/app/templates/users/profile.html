@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}
+    Profile
+{% endblock title %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}{{ message }}{% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="" method="post" enctype="multipart/form-data">
+        Change Avatar:
+        <input type="file" name="avatar">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <img src="data:;base64,{{ user.avatar | bytes_to_base64 }}"
+         width="200"
+         height="200"
+         alt="{{ session.get("username") }}`s Avatar">
+    <hr>
+    <h1>Profile</h1>
+    <h2>{{ session.get("username") }}`s Books</h2>
+    {% for book in user.books %}<h3>{{ book.title }}</h3>{% endfor %}
+{% endblock content %}
