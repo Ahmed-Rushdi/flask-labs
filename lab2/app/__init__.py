@@ -28,9 +28,11 @@ def create_app(**custom_config):
     def home():
         return render_template("layout.html")
 
-    from app.blueprints import auth, books
+    from app.blueprints import auth, books, users, admin
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(books.bp)
+    app.register_blueprint(users.bp)
+    app.register_blueprint(admin.bp)
 
     return app

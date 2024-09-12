@@ -25,11 +25,12 @@
         <br>
     {% endfor %}
     <script>
-        function deleteBook(id) {
+        async function deleteBook(id) {
             console.log(id)
-            fetch(`/books/${id}`, {
+            await fetch(`/books/${id}`, {
                 method: "DELETE"
-            }).then(() => window.location.reload())
+            })
+            window.location.href = "/books"
         }
     </script>
 {% endblock content %}

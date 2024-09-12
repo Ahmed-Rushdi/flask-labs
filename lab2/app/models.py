@@ -21,9 +21,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(30), unique=True, nullable=False)
     password_hash = db.Column(db.String(60), unique=False, nullable=False)
-    avatar = db.Column(db.BLOB, nullable=True)
-    books = db.relationship("Book", backref="user")
     role = db.Column(db.String(30), unique=False, nullable=False)
+    avatar = db.Column(db.BLOB, nullable=True)
+    books = db.relationship("Book", backref="user", cascade="all, delete")
 
     def __init__(self, username: str, password: str, role: str = "user") -> None:
         self.username = username

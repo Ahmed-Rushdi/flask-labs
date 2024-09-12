@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}
+    Dashboard
+{% endblock title %}
+{% block content %}
+    <ul>
+        <li>
+            <a href="{{ url_for('admin.dashboard', tab='users') }}">Users</a>
+        </li>
+        <li>
+            <a href="{{ url_for('admin.dashboard', tab='books') }}">Books</a>
+        </li>
+    </ul>
+    <hr>
+    {% if tab == "users" %}
+        <h1>Users</h1>
+        <ul>
+            {% for user in users %}
+                <li>
+                    {{ user.username }}
+                    <button onclick="deleteUser({{ user.id }})">Delete</button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif tab == "books" %}
+        <h1>Books</h1>
+        <ul>
+            {% for book in books %}
+                <li>
+                    {{ book.title }} | {{ book.user_id }}
+                    <button onclick="deleteBook({{ book.id }})">Delete</button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <script>
+        async function deleteUser(id) {
+            await fetch(`/users/${id}`, {
+                method: "DELETE"
+            })
+            window.location.href = "/admin/dashboard"
+        }
+        async function deleteBook(id) {
+            await fetch(`/books/${id}`, {
+                method: "DELETE"
+            })
+            window.location.href = "/admin/dashboard"
+        }
+    </script>
+{% endblock content %}

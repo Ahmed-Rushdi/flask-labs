@@ -15,10 +15,12 @@
         <input type="submit" value="Submit">
     </form>
     <br>
-    <img src="data:;base64,{{ user.avatar | bytes_to_base64 }}"
-         width="200"
-         height="200"
-         alt="{{ session.get("username") }}`s Avatar">
+    {% if user.avatar %}
+        <img src="data:;base64,{{ user.avatar | bytes_to_base64 }}"
+             width="200"
+             height="200"
+             alt="{{ session.get("username") }}`s Avatar">
+    {% endif %}
     <hr>
     <h1>Profile</h1>
     <h2>{{ session.get("username") }}`s Books</h2>

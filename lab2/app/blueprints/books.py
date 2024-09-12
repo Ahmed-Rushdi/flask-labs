@@ -1,4 +1,12 @@
-from flask import Blueprint, session, redirect, url_for, render_template, request
+from flask import (
+    Blueprint,
+    session,
+    redirect,
+    url_for,
+    render_template,
+    request,
+    jsonify,
+)
 from app.models import User, Book
 from app import db
 
@@ -26,20 +34,20 @@ def list():
 
 
 @bp.route("/<int:book_id>", methods=["DELETE"])
-def delete(book_id):\
+def delete(book_id):
     print(session.get("username"))
     if not session.get("username"):
-        return redirect(url_for("auth.login"))
+        return jsonify({"error": "You don't have permission to delete this book"}), 403
     user = User.query.filter_by(username=session["username"]).first()
     if not user:
-        return redirect(url_for("auth.login"))
+        return jsonify({"error": "User not found"}), 404
     book = Book.query.filter_by(id=book_id).first()
     if not book:
-        return redirect(url_for("books.list"))
+        return jsonify({"error": "Book not found"}), 404
     if user.role != "admin" and book.user_id != user.id:
-        return redirect(url_for("books.list"))
+        return jsonify({"error": "You don't have permission to delete this book"}), 403
     else:
         if book:
             db.session.delete(book)
             db.session.commit()
-    return redirect(url_for("books.list"))
+    return jsonify({"error": "Book deleted"}), 200
